@@ -22,7 +22,9 @@ class SpriteObject:public GameObject
 public:
     // Constructor(s)
     SpriteObject();
-    SpriteObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, Color color = WHITE, glm::vec2 velocity = glm::vec2(0.0f, 0.0f),GLfloat rotation=0.0f);
+    SpriteObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, Color color = WHITE,
+                 glm::vec2 velocity = glm::vec2(0.0f, 0.0f),
+                 GLfloat rotation=0.0f);
     // Draw sprite
     void Draw(SpriteRenderer &renderer);
 };

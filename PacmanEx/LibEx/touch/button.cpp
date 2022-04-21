@@ -75,8 +75,9 @@ void Button::TouchCancelled(double x, double y)
 }
 
 void Button::Draw(SpriteRenderer &renderer){
+    glm::vec3 axis = glm::vec3(0.0f,0.0f,1.0f);
     if(mouseState == MOUSE_PRESSED)
-        renderer.DrawSprite(sprite, Position, Size*0.9f, RotationAngle, WHITE);
+        renderer.DrawSprite(sprite, Position, Size*0.9f, axis, RotationAngle, WHITE);
     else
-        renderer.DrawSprite(sprite, Position, Size, RotationAngle, WHITE);
+        renderer.DrawSprite(sprite, Position, Size, axis, RotationAngle, WHITE);
 }

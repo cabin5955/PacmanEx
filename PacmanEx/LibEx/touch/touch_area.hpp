@@ -16,10 +16,9 @@
 #include "touch_delegate_protocol.h"
 #include "scene.h"
 #include "button.hpp"
-#include "rectangle.hpp"
 #include "color.h"
 
-class TouchArea:public Rectangle,public TouchDelegate
+class TouchArea:public TouchDelegate
 {
 public:
     typedef void (*DoubleClickCallback)();
@@ -34,6 +33,8 @@ public:
     void TouchEnded(double x, double y);
     void TouchCancelled(double x, double y);
     void TouchMovedOffset(double x,double y);
+    
+    void Draw(ColorRenderer &renderer);
 
     glm::vec2   Position, Size;
     DoubleClickCallback onDoubleClick;

@@ -29,14 +29,16 @@ void ColorRenderer::DrawColor(Color color, glm::vec2 position, glm::vec2 size, G
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // Move origin back
 
     model = glm::scale(model, glm::vec3(size, 1.0f)); // Last scale
-
     this->shader.setMat4("model", model);
 
     // Render textured quad
     this->shader.setVec4("color", {color.r/255.0f,color.g/255.0f,color.b/255.0f,color.a/255.0f});
 
     glBindVertexArray(this->quadVAO);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisable(GL_BLEND);
     glBindVertexArray(0);
 }
 

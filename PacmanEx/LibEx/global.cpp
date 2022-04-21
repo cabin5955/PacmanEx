@@ -11,6 +11,8 @@
 
 char Global::RES_PATH[256] = {0};
 double Global::TicksSub = 0.0f;
+int Global::ScreenWidth = 0;
+int Global::ScreenHeight = 0;
 
 double Global::GetTime(){
     return glfmGetTime();

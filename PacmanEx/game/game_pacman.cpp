@@ -29,6 +29,7 @@
 
 GamePacman* GamePacman::s_instance = nullptr;
 SpriteRenderer      *Renderer;
+SpriteRenderer      *uiRenderer;
 TextRenderer        *Text;
 ColorRenderer       *colorRenderer;
 
@@ -163,6 +164,7 @@ void GamePacman::SetPacman(){
 
 void GamePacman::SetCamera(){
     SetCameraOffset({0.0f, 18.5f, 7.2f});
+    //SetCameraOffset({0.0f, 1.0f, 0.0f});
     glm::vec3 newPos =  {
         pacman->Position.x + cameraOffset.x,
         pacman->Position.y + cameraOffset.y,
@@ -198,43 +200,8 @@ void GamePacman::Init(unsigned int width, unsigned int height)
 {
     this->Width = width;
     this->Height = height;
-    char vs[1024] = {0};
-    char fs[1024] = {0};
+    
     char des[1024] = {0};
-    
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"sprite.vs"),Global::ResFullPath(fs,"sprite.fs"),
-                                nullptr, "sprite");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"particle.vs"), Global::ResFullPath(fs,"particle.fs"),
-                                nullptr, "particle");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"post_processing.vs"), Global::ResFullPath(fs,"post_processing.fs"),
-                                nullptr, "postprocessing");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"text_2d.vs"),Global::ResFullPath(fs,"text_2d.fs"),
-                                nullptr, "text");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"mesh.vs"), Global::ResFullPath(fs,"mesh.fs"),
-                                nullptr, "mesh");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"cube.vs"), Global::ResFullPath(fs,"cube.fs"),
-                                nullptr, "cube");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"mulight.vs"), Global::ResFullPath(fs,"mulight.fs"),
-                                nullptr, "mulight");
-    
-    memset(vs, 0, sizeof(vs));memset(fs, 0, sizeof(fs));
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"lighting.vs"), Global::ResFullPath(fs,"lighting.fs"),
-                                nullptr, "lighting");
-    
-    ResourceManager::LoadShader(Global::ResFullPath(vs,"color.vs"), Global::ResFullPath(fs,"color.fs"),
-                                nullptr, "color");
     
     // 配置着色器
     glm::mat4 projection2d = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
@@ -254,17 +221,14 @@ void GamePacman::Init(unsigned int width, unsigned int height)
     colorShader.setMat4("view", glm::mat4(1.0));
     colorShader.setMat4("projection", projection2d);
     
+    Shader uiShader = ResourceManager::GetShader("ui");
+    uiShader.use();
+    uiShader.setMat4("projection", projection2d);
+    
     // 设置专用于渲染的控制
     Renderer = new SpriteRenderer(spriteShader);
     colorRenderer = new ColorRenderer(colorShader);
-    
-    // 加载纹理
-    ResourceManager::LoadTexture(Global::ResFullPath(des,"background.jpg"), GL_FALSE, "background");
-    ResourceManager::LoadTexture(Global::ResFullPath(des,"awesomeface.png"), GL_TRUE, "face");
-    
-    ResourceManager::LoadTexture(Global::ResFullPath(des,"zaitiaozhan.png"), GL_FALSE, "ui_btn_replay");
-    ResourceManager::LoadTexture(Global::ResFullPath(des, "textureMask.png"), GL_TRUE, "mask");
-    ResourceManager::LoadTexture(Global::ResFullPath(des, "arrow.png"), GL_TRUE, "arrow");
+    uiRenderer = new SpriteRenderer(uiShader);
     
     float scal = 1.0f;
     int btn_size = 64;
@@ -499,10 +463,10 @@ void GamePacman::Render()
     
     Enemy::DrawEnemies(meshShader);
 
-    LeftButton->Draw(*Renderer);
-    RightButton->Draw(*Renderer);
-    UpButton->Draw(*Renderer);
-    DownButton->Draw(*Renderer);
+    LeftButton->Draw(*uiRenderer);
+    RightButton->Draw(*uiRenderer);
+    UpButton->Draw(*uiRenderer);
+    DownButton->Draw(*uiRenderer);
 }
 
 void GamePacman::Release()

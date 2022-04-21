@@ -17,13 +17,14 @@ SpriteObject::SpriteObject(glm::vec2 pos, glm::vec2 size,
             glm::vec3(size.x,size.y,1.0f),
             sprite,color,
             glm::vec3(velocity.x,velocity.y,0.0f),
-            glm::vec3(0.0f,0.0f,rotation))
+            glm::vec3(0.0f,0.0f,1.0f),
+            rotation)
                                                           
 {
-
+    
 }
 
 void SpriteObject::Draw(SpriteRenderer &renderer)
 {
-    renderer.DrawSprite(this->Sprite, this->Position, this->Size, this->RotationAxis.z, this->color);
+    renderer.DrawSprite(this->Sprite, this->Position, this->Size, this->RotationAxis, this->RotationAngle, this->color);
 }

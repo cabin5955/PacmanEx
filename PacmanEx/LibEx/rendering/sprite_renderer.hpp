@@ -15,6 +15,8 @@
 #include "texture.hpp"
 #include "shader.h"
 #include "color.h"
+#include "mesh.hpp"
+#include "tile.hpp"
 
 class SpriteRenderer
 {
@@ -26,9 +28,17 @@ public:
     // Renders a defined quad textured with given sprite
     void DrawSprite(Texture2D &texture, glm::vec2 position,
                     glm::vec2 size = glm::vec2(10, 10),
-                    GLfloat rotate = 0.0f, Color color = WHITE);
+                    glm::vec3 rotateAxis = glm::vec3(0.0f,0.0f,1.0f),
+                    GLfloat rotateAngle = 0.0f, Color color = WHITE);
     // Initializes and configures the quad's buffer and vertex attributes
-    void initRenderData();
+    void InitRenderData();
+    
+    void DrawTile(Tile &tile);
+    
+    void SetFlipX(bool flip);
+    
+    void SetFlipY(bool flip);
+    
 private:
     // Render state
     Shader shader;

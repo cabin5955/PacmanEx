@@ -41,6 +41,13 @@ typedef struct {
     glm::vec3 center;
 } Mesh;
 
+typedef struct Rectangle {
+    float x;                // top-left corner position x
+    float y;                // top-left corner position y
+    float width;
+    float height;           
+} Rectangle;
+
 /* mesh loading/releasing */
 Mesh *mesh_load(const char *filename);
 void mesh_release(Mesh *mesh);

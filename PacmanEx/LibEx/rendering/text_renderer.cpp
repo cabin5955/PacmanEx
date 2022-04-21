@@ -134,7 +134,10 @@ void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sc
     this->TextShader.setVec3("textColor", color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
-
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Iterate through all characters
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
@@ -169,6 +172,7 @@ void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sc
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
 }
 
 GLfloat TextRenderer::GetTextWidth(std::wstring text, GLfloat scale)
@@ -191,6 +195,9 @@ void TextRenderer::RenderText(std::wstring text, GLfloat x, GLfloat y, GLfloat s
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     // Iterate through all characters
     std::wstring::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
@@ -225,4 +232,5 @@ void TextRenderer::RenderText(std::wstring text, GLfloat x, GLfloat y, GLfloat s
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
 }

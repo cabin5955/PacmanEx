@@ -45,8 +45,7 @@ bool IsDoubleClick ()
 }
 
 TouchArea::TouchArea(IScene *scene, glm::vec2 pos, glm::vec2 size,Color c)
-    : Rectangle(pos, size, c)
-    , onDoubleClick(0)
+    : onDoubleClick(0)
     , onMovedCallback(0)
     , mouseState(MOUSE_NONE){
         
@@ -101,4 +100,8 @@ void TouchArea::TouchMovedOffset(double x, double y)
     {
         onMovedCallback(x,y);
     }
+}
+
+void TouchArea::Draw(ColorRenderer &renderer){
+    renderer.DrawColor(color, Position, Size);
 }
